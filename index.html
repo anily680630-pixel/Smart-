@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Smart Search</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      background: linear-gradient(270deg, #ff9a9e, #fad0c4, #a1c4fd, #c2e9fb);
+      background-size: 800% 800%;
+      animation: gradientMove 20s ease infinite;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+    }
+    @keyframes gradientMove {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
+    .logo {
+      font-size: 48px;
+      font-weight: bold;
+      margin-bottom: 30px;
+    }
+    .logo span:nth-child(1){color:#ff5722}
+    .logo span:nth-child(2){color:#3f51b5}
+    .logo span:nth-child(3){color:#4caf50}
+    .logo span:nth-child(4){color:#ffc107}
+    .logo span:nth-child(5){color:#e91e63}
+
+    .search-box {
+      display: flex;
+      align-items: center;
+      background: #fff;
+      border-radius: 30px;
+      padding: 5px 10px;
+      width: 500px;
+      max-width: 90%;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+    }
+    select {
+      border: none;
+      font-size: 14px;
+      padding: 6px;
+      border-radius: 20px;
+      background: #f1f1f1;
+      margin-right: 8px;
+    }
+    input[type="text"] {
+      flex: 1;
+      border: none;
+      font-size: 16px;
+      padding: 10px;
+      outline: none;
+    }
+    .icon-btn {
+      background: none;
+      border: none;
+      font-size: 18px;
+      cursor: pointer;
+      margin-left: 5px;
+      color: #555;
+    }
+    .icon-btn:hover { color: #1a73e8; }
+    footer { position: absolute; bottom: 15px; font-size: 14px; color: #333; }
+  </style>
+</head>
+<body>
+  <div class="logo">
+    <span>S</span><span>m</span><span>a</span><span>r</span><span>t</span>
+  </div>
+
+  <form class="search-box" onsubmit="doSearch(event)">
+    <select id="engine">
+      <option value="google">G</option>
+      <option value="duckduckgo" selected>D</option>
+      <option value="bing">B</option>
+      <option value="wikipedia">W</option>
+      <option value="youtube">Y</option>
+    </select>
+    <input type="text" id="query" placeholder="Search Smart...">
+    <button type="submit" class="icon-btn">🔍</button>
+    <button type="button" class="icon-btn" onclick="startVoiceSearch()">🎙️</button>
+    <button type="button" class="icon-btn" onclick="toggleChat()">🤖</button>
+  </form>
+
+  <footer>© 2025 Smart Search</footer>
+
+  <!-- Chatbot Popup -->
+  <div id="chatbot" style="display:none; position:fixed; bottom:80px; right:20px; width:300px; height:400px; background:#fff; border-radius:15px; box-shadow:0 4px 10px rgba(0,0,0,0.2); overflow:hidden; flex-direction:column;">
+    <div style="background:#1a73e8;color:#fff;padding:10px;font-weight:bold;">🤖 Smart Assistant</div>
+    <div id="chat-messages" style="flex:1;padding:10px;overflow-y:auto;text-align:left;font-size:14px;"></div>
+    <div style="display:flex;border-top:1px solid #ddd;">
+      <input type="text" id="chatText" placeholder="Type a message..." style="flex:1;border:none;padding:10px;font-size:14px;">
+      <button onclick="sendMessage()" style="border:none;background:#1a73e8;color:#fff;padding:10px 15px;cursor:pointer;">Send</button>
+    </div>
+  </div>
+
+  <script>
+    function doSearch(event){
+      event.preventDefault();
+      const q = document.getElementById("query").value;
+      const engine = document.getElementById("engine").value;
+      if(q.trim() !== ""){
+        let url = "";
+        if(engine === "google"){ url = "https://www.google.com/search?q=" + encodeURIComponent(q); }
+        else if(engine === "duckduckgo"){ url = "https://duckduckgo.com/?q=" + encodeURIComponent(q); }
+        else if(engine === "bing"){ url = "https://www.bing.com/search?q=" + encodeURIComponent(q); }
+        else if(engine === "wikipedia"){ url = "https://en.wikipedia.org/wiki/Special:Search?search=" + encodeURIComponent(q); }
+        else if(engine === "youtube"){ url = "https://www.youtube.com/results?search_query=" + encodeURIComponent(q); }
+        window.open(url, "_blank");
+      }
+    }
+
+    function startVoiceSearch(){
+      if('webkitSpeechRecognition' in window){
+        const recognition = new webkitSpeechRecognition();
+        recognition.lang = "hi-IN";
+        recognition.onresult = function(event){
+          document.getElementById("query").value = event.results[0][0].transcript;
+        };
+        recognition.start();
+      } else {
+        alert("Voice search is not supported in this browser.");
+      }
+    }
+
+    function toggleChat(){
+      const chat = document.getElementById("chatbot");
+      chat.style.display = (chat.style.display === "none" || chat.style.display === "") ? "flex" : "none";
+    }
+
+    function sendMessage(){
+      const input = document.getElementById("chatText");
+      const msg = input.value.trim();
+      if(msg){
+        const chatBox = document.getElementById("chat-messages");
+        chatBox.innerHTML += `<div><b>You:</b> ${msg}</div>`;
+        chatBox.innerHTML += `<div><b>Smart:</b> आपने कहा "${msg}"</div>`;
+        chatBox.scrollTop = chatBox.scrollHeight;
+        input.value = "";
+      }
+    }
+  </script>
+</body>
+</html>
