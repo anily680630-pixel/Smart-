@@ -89,6 +89,27 @@
     <button type="button" class="icon-btn" onclick="toggleChat()">🤖</button>
   </form>
 
+  <!-- Ads code start (Search box ke neeche) -->
+  <div style="margin:20px 0;">
+    <!-- Ad 1 -->
+    <script type="text/javascript">
+      atOptions = {
+        'key' : '7985ff239ec1e26042c7adb08fa9bbc8',
+        'format' : 'iframe',
+        'height' : 60,
+        'width' : 468,
+        'params' : {}
+      };
+    </script>
+    <script type="text/javascript" src="//www.highperformanceformat.com/7985ff239ec1e26042c7adb08fa9bbc8/invoke.js"></script>
+    <!-- Ad 2 -->
+    <script type='text/javascript' src='//pl27733903.revenuecpmgate.com/78/32/13/783213d540e8f295c1d04fdc97aaea22.js'></script>
+    <!-- Ad 3 -->
+    <script async="async" data-cfasync="false" src="//pl27733936.revenuecpmgate.com/7ef51cbefa4a1940fe72d6706e1fff6a/invoke.js"></script>
+    <div id="container-7ef51cbefa4a1940fe72d6706e1fff6a"></div>
+  </div>
+  <!-- Ads code end -->
+
   <footer>© 2025 Smart Search</footer>
 
   <!-- Chatbot Popup -->
@@ -108,44 +129,4 @@
       const engine = document.getElementById("engine").value;
       if(q.trim() !== ""){
         let url = "";
-        if(engine === "google"){ url = "https://www.google.com/search?q=" + encodeURIComponent(q); }
-        else if(engine === "duckduckgo"){ url = "https://duckduckgo.com/?q=" + encodeURIComponent(q); }
-        else if(engine === "bing"){ url = "https://www.bing.com/search?q=" + encodeURIComponent(q); }
-        else if(engine === "wikipedia"){ url = "https://en.wikipedia.org/wiki/Special:Search?search=" + encodeURIComponent(q); }
-        else if(engine === "youtube"){ url = "https://www.youtube.com/results?search_query=" + encodeURIComponent(q); }
-        window.open(url, "_blank");
-      }
-    }
-
-    function startVoiceSearch(){
-      if('webkitSpeechRecognition' in window){
-        const recognition = new webkitSpeechRecognition();
-        recognition.lang = "hi-IN";
-        recognition.onresult = function(event){
-          document.getElementById("query").value = event.results[0][0].transcript;
-        };
-        recognition.start();
-      } else {
-        alert("Voice search is not supported in this browser.");
-      }
-    }
-
-    function toggleChat(){
-      const chat = document.getElementById("chatbot");
-      chat.style.display = (chat.style.display === "none" || chat.style.display === "") ? "flex" : "none";
-    }
-
-    function sendMessage(){
-      const input = document.getElementById("chatText");
-      const msg = input.value.trim();
-      if(msg){
-        const chatBox = document.getElementById("chat-messages");
-        chatBox.innerHTML += `<div><b>You:</b> ${msg}</div>`;
-        chatBox.innerHTML += `<div><b>Smart:</b> आपने कहा "${msg}"</div>`;
-        chatBox.scrollTop = chatBox.scrollHeight;
-        input.value = "";
-      }
-    }
-  </script>
-</body>
-</html>
+        if(engine
